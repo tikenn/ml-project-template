@@ -22,8 +22,10 @@
 MODEL_DIR='train'
 ITERATION_PREFIX='iteration'
 
-iteration_number=''
+next_iteration_number=''
+previous_iteration_dir=''
 
+# Determine next iteration
 if [[ $(find "$MODEL_DIR" -type d | wc -l) = 1 ]] ; then
     iteration_number=1
 else
@@ -31,15 +33,23 @@ else
     IFS=$'\n'
 
     iteration_array=($(find "$MODEL_DIR" -maxdepth 1 -type d -not -path '\.' | sort -V))
-    last_iteration=${iteration_array[${#iteration_array[@]} - 1]}
-    iteration_number=$((${last_iteration#"$MODEL_DIR/$ITERATION_PREFIX" } + 1))
+    previous_iteration_dir=${iteration_array[${#iteration_array[@]} - 1]}
+    next_iteration_number=$((${previous_iteration_dir#"$MODEL_DIR/$ITERATION_PREFIX" } + 1))
     
     IFS=$OIFS
 fi
 
 # New training directories for iterating through machine learning process
-[[ -d "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/feature_exploration" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/feature_exploration" 
-[[ -d "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/log" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/log" 
-[[ -d "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/results" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/results" 
-[[ -d "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/visualizations" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/visualizations" 
-[[ -d "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/model" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $iteration_number/model" 
+[[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/feature_exploration" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/feature_exploration" 
+[[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/log" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/log" 
+[[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/results" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/results" 
+[[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/visualizations" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/visualizations" 
+
+# copy the previous model for iteration purposes
+if ! [[ -z "$previous_iteration_dir" ]] ; then
+    cp -r "$previous_iteration_dir/model" "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/model"
+
+# first iteration, just create a model directory
+else
+    [[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/model" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/model" 
+fi
