@@ -104,6 +104,7 @@ Contains the functional model-building components of system.  Because model-buil
     * `model/`
     * `results/`
     * `visualizations/`
+    * `processed_data/`
 
 <table>
     <tr>
@@ -129,6 +130,10 @@ Contains the functional model-building components of system.  Because model-buil
     <tr>
         <td><code>visualizations/</code></td>
         <td>Graphical or other visual representations of model output, including results, model-building monitoring, and architecture diagrams.  May contain any visual output from the <code>model/</code> folder or any scripts that process results into a visual format.</td>
+    </tr>
+    <tr>
+        <td><code>processed_data/</code></td>
+        <td>Contains either the data files themselves (*.tsv, *.csv, etc.) or the scripts to create the data files/database tables for the final processed data to be run in the model.  This folder might not be necessary (global datasets might be sufficient), but it exists to provide an option.</td>
     </tr>
 </table>
 
