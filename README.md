@@ -6,12 +6,15 @@ Provides a directory structure for a single machine learning project.  While the
 * [Environment](#environment)
 * [Initialization](#initialization)
 * [Directory Architecture](#directory-architecture)
+* [Automation](#automation)
 
 
 # Quickstart
 1. Download repository
 2. Run `bash initialize_new_project.sh`
 3. Start machine learning
+---
+4. (new iteration) Run `bash create_additional_iterations.sh`
 
 
 # Environment
@@ -121,10 +124,19 @@ Contains the functional model-building components of system.  Because model-buil
     </tr>
     <tr>
         <td><code>results/</code></td>
-        <td>Stores textual and numerical results for the model including final output and monitoring results</td>
+        <td>Stores textual and numerical results for the model including final output and monitoring results.  This directory may contain any output from the <code>model/</code> folder or any scripts that process the results in a more pallitable <strong>text</strong> format. This location might also be appropriate for jupyter notebook files for both text <strong>and</strong> visual results.</td>
     </tr>
     <tr>
         <td><code>visualizations/</code></td>
-        <td>Graphical or other visual representations of model output, including results, model-building monitoring, and architecture diagrams</td>
+        <td>Graphical or other visual representations of model output, including results, model-building monitoring, and architecture diagrams.  May contain any visual output from the <code>model/</code> folder or any scripts that process results into a visual format.</td>
     </tr>
 </table>
+
+# Automation
+Setting up NodeJS and python environments as well as creating multiple directories for each iteration involves several cumbersome steps.  Additionally, it is easy to forget something small in the process.  Therefore, a few scripts are provided for automating these processes.  Both of these scripts assume a `bash` environment.
+
+## `initialize_new_project.sh`
+This script is extremely simple in that it only sets up a NodeJS project and conda environment based on the project name.  However, these steps are easy to forget and are essential to creating easily replicable machine learning environment.
+
+## `create_additional_iterations.sh`
+This script automates setup of additional iterations, which would involve the creation of several directories.  The script pulls all directories in the training directory, finds the last iteration (highest numbered directory), and creates a new one incremented by one.
