@@ -44,7 +44,7 @@ fi
 [[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/log" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/log" 
 [[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/results" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/results" 
 [[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/visualizations" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/visualizations" 
-[[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/processed_data" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/visualizations" 
+[[ -d "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/processed_data" ]] || mkdir -p "$MODEL_DIR/$ITERATION_PREFIX $next_iteration_number/processed_data" 
 
 # copy the previous model for iteration purposes
 if ! [[ -z "$previous_iteration_dir" ]] ; then
