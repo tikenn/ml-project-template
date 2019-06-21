@@ -26,15 +26,15 @@ next_iteration_number=''
 previous_iteration_dir=''
 
 # Determine next iteration
-if [[ $(find "$MODEL_DIR" -type d | wc -l) = 1 ]] ; then
-    iteration_number=1
+if (( $(find "$MODEL_DIR" -type d \( -name "$ITERATION_PREFIX"* \) | wc -l) < 1 )) ; then
+    next_iteration_number=1
 else
     OIFS=$IFS
     IFS=$'\n'
 
-    iteration_array=($(find "$MODEL_DIR" -maxdepth 1 -type d -not -path '\.' | sort -V))
+    iteration_array=($(find "$MODEL_DIR" -maxdepth 1 -type d \( -name "$ITERATION_PREFIX"* \) -not -path '\.' | sort -V))
     previous_iteration_dir=${iteration_array[${#iteration_array[@]} - 1]}
-    next_iteration_number=$((${previous_iteration_dir#"$MODEL_DIR/$ITERATION_PREFIX" } + 1))
+    next_iteration_number=$((${previous_iteration_dir#"$MODEL_DIR/$ITERATION_PREFIX"} + 1))
     
     IFS=$OIFS
 fi
